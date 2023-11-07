@@ -115,7 +115,7 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		equals.setOnAction(this);
 		
 		Button reset = new Button("C");
-		gd.add(reset, 0, 4, 3, 1);
+		gd.add(reset, 0, 4, 4, 1);
 		reset.setPrefWidth(215);
 		reset.setOnAction(this);
 		
@@ -126,14 +126,67 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 	public void handle(ActionEvent event) {
 		Button b = (Button) event.getSource();
 		String value = b.getText();
-		if(value=="C") {
-			displayText.setText("");
-		}else if (operator==null) {
-			number1+=value;
-			displayText.setText(displayText.getText()+value);
+			if (value=="C") {
+				displayText.setText("");
+				number1="";
+				number2="";
+				operator=null;}
+			else if (value=="+") {
+				displayText.setText(displayText.getText()+value);
+				operator="+";}
+				
+			else if(value== "-") {
+				displayText.setText(displayText.getText()+value);
+				operator="-";}
+				
+			else if (value=="*") {
+				displayText.setText(displayText.getText()+value);
+				operator="*";}
+				
+			else if (value=="/") {
+				displayText.setText(displayText.getText()+value);
+				operator="/";}
+				
+			else if (value=="=") { 
+				if(number1!="" && number2!="") {
+						if (operator=="+") {
+							number1=String.valueOf(Double.valueOf(number1)+Double.valueOf(number2));
+							number2="";
+							displayText.setText(number1);
+							}
+						else if(operator== "-") {
+							number1=String.valueOf(Double.valueOf(number1)-Double.valueOf(number2));
+							number2="";
+							displayText.setText(number1);
+							}
+						else if(operator== "*") {
+							number1=String.valueOf(Double.valueOf(number1)*Double.valueOf(number2));
+							number2="";
+							displayText.setText(number1);
+							}
+						else if (operator== "/") {
+							if (Integer.valueOf(number2)!=0) {
+								number1=String.valueOf(Double.valueOf(number1)/Double.valueOf(number2));
+								number2="";
+								displayText.setText(number1);
+								}else {
+								displayText.setText("Error Div 0");
+								}
+							}
+						else {
+							displayText.setText("syntax error");
+						}
+				}else {displayText.setText(number1);}
+				}
+				
+			else if (operator==null){
+				displayText.setText(displayText.getText()+value);
+				number1+=value;
+				}
+			else if (operator!=null) {
+				displayText.setText(displayText.getText()+value);
+				number2+=value;
+			}	
 		}
-		
+				
 	}
-	
-
-}
